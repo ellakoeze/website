@@ -6,36 +6,81 @@
     <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic+SC|Karla" rel="stylesheet">
     <style>
 
+
       h1 {
-        color: #f000000;
+        color: #000000;
         font-family: 'Carrois Gothic SC', serif;
+        margin-left: 20px;
+        text-align: center;
       }
 
       a{
         text-decoration: none;
-        color: #000000;
-        font-family: 'Karla', serif;
         cursor: pointer;
+        border: #2b24ec 1px solid;
+        position: relative;
+        overflow: hidden;
       }
       a:hover{
-        background: #000000;
+        box-shadow: 2px 2px 5px #130f7a;
+        background: rgba(43,36,236, 0.1);
       }
       
       .grid{
         display: flex;
+        width: 1300px;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: space-evenly;
       }
 
       .project{
-        background-image: url('./images/bluesquare.png'); 
-        background-position: center center;
+      	color: #2b24ec;
+      	font-family: 'Karla', serif;
+        width: 250px;
+        margin: 10px 20px 20px 20px;
+        
       }
+
+      .project-overlay{
+      	display: block;
+      	width: 250px;
+      	position: absolute;
+      	z-index: -1;
+      	top: 0;
+      	left: 0;
+      }
+
+      .title, .org, .date, .slug{
+      	background: #ffffff;
+      	display: inline-block;
+      }
+      .title{
+      	line-height: 1.2;
+      	margin: 0;
+      	font-size: 18px;
+      	font-weight: 700;
+      	display: inline-block;
+      }
+      .top{
+      	display: flex;
+      	justify-content: space-between;
+      	font-size: 10px;
+      	text-transform: uppercase;
+      }
+      .org, .date, .slug{
+      	
+      }
+      img{
+      	width: 300px;
+      }
+
 
     </style>
   </head>
   <body>
-    <h1>ELLA KOEZE</h1>
-    <div class='grid'></div>
-
+    	<h1>ELLA KOEZE</h1>
+    	<div class='grid'></div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
       // Google sheets parameters
@@ -52,7 +97,7 @@
       function getData() {
         gapi.client.sheets.spreadsheets.values.get({
           spreadsheetId: '1by8a00uGvIOCmR4mFGGImdecHFagL06DMsnlaFZIGe0',
-          range: 'projects!A2:F',
+          range: 'projects!A2:Z',
         }).then(function(response) {
           makeGrid(response.result.values);
         });
@@ -82,13 +127,21 @@
       function makeGrid(data){
         console.log(data);
         data.forEach(function(row) {
-          var project = d3.select('.grid').append('a').append('div').attr('class','project').attr('href',row[4]);
-          project.append('h3').attr('class','title').text(row[0]);
-          project.append('p').attr('class','date').text(row[1]);
-          project.append('p').attr('class','description').text(row[3]);
+          var link = d3.select('.grid').append('a').attr('href',row[5])
+          var project = link.append('div').attr('class','project');
+          var top = project.append('div').attr('class','top');
+          top.append('p').attr('class','slug').text(row[3]);
+          top.append('p').attr('class','date').text(row[1]);
+          project.append('p').attr('class','title').text(row[0]);
+          project.append('p').attr('class','org').text('for '+row[2]);
+
+          var overlay = link.append('div').attr('class','project-overlay');
+          var image = overlay.append('div').attr('class', 'image');
+
       
-          if(row[5]){
-            project.style('background-image', 'url("'+row[5]+'"');
+          if(row[6]){
+            image.append('img').attr('src','images/'+row[6]+'.png');
+
           }
         });
 
