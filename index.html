@@ -4,6 +4,8 @@
     <title>pronounced koo-zee</title>
     <meta charset='utf-8' />
     <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+    <link rel=”shortcut icon” href=”images/blue-square.png” type=”image/icon”>
+    <link rel=”icon” href=”images/blue-square.png” type=”image/icon”>
     <style>
 
      body{
@@ -169,7 +171,6 @@
 
       
       function makeGrid(data){
-        console.log(data);
         data.forEach(function(row) {
           var link = d3.select('.grid').append('a').attr('class','box').attr('href',row[5])
           var project = link.append('div').attr('class','project');
