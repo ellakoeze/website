@@ -1,45 +1,69 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>the very talented Ella Koeze</title>
+    <title>Ella Koeze, pretty good</title>
     <meta charset='utf-8' />
-    <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic+SC|Karla" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
     <style>
 
+     body{
+     	background: #FFFFF2;
+     }
 
-      h1 {
-        color: #000000;
-        font-family: 'Carrois Gothic SC', serif;
-        margin-left: 20px;
-        text-align: center;
+     .header{
+     	color: #231EC2;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 48px;
+        width: 1248px;
+        margin: 40px auto 40px auto;
+     }
+
+      .head {
+      	font-weight: 700;
+      	padding-left: 10px;
+        
+      }
+      .subhead{
+      	font-size: 36px;
+      	padding-left: 10px;
       }
 
-      a{
+      a.top{
+      	text-decoration: none;
+      	cursor: pointer;
+      	color: #231EC2;
+      }
+      a.top:hover{
+      	color: #930DF5;
+      }
+
+      a.box{
         text-decoration: none;
         cursor: pointer;
         border: #2b24ec 1px solid;
         position: relative;
         overflow: hidden;
+        margin: 0px 10px 20px 10px;
       }
-      a:hover{
-        box-shadow: 2px 2px 5px #130f7a;
-        background: rgba(43,36,236, 0.1);
+      a.box:hover{
+        box-shadow: 2px 2px 7px #130f7a;
+        background: rgba(43,36,236, 0.1);	
       }
       
       .grid{
         display: flex;
-        width: 1300px;
+        width: 1248px;
         flex-wrap: wrap;
         margin: 0 auto;
-        justify-content: space-evenly;
+        justify-content: flex-start;
       }
 
       .project{
       	color: #2b24ec;
-      	font-family: 'Karla', serif;
+      	font-family: Karla, sans-serif;
         width: 250px;
         margin: 10px 20px 20px 20px;
-        
+        height: 150px;
       }
 
       .project-overlay{
@@ -50,36 +74,56 @@
       	top: 0;
       	left: 0;
       }
-
-      .title, .org, .date, .slug{
+      .text-box{
       	background: #ffffff;
       	display: inline-block;
+      	margin-bottom: 10px; 
       }
+
       .title{
       	line-height: 1.2;
       	margin: 0;
       	font-size: 18px;
       	font-weight: 700;
-      	display: inline-block;
       }
-      .top{
-      	display: flex;
-      	justify-content: space-between;
-      	font-size: 10px;
-      	text-transform: uppercase;
-      }
-      .org, .date, .slug{
-      	
-      }
+
       img{
       	width: 300px;
       }
 
+      @media only screen and (min-width: 768px) and (max-width: 1248px) {
+      		.header, .grid{
+      			width: 768px;
+      		}
+      		.project{
+      			width: 300px;
+      		}
+      		img{
+      			width: 150%;
+      		}
+      }
+
+      @media only screen and (max-width: 767px) {
+      		.header, .grid{
+      			width: 479px;
+      		}
+      		.project{
+      			width: 300px;
+      		}
+      		img{
+      			width: 150%;
+      		}
+      }
 
     </style>
   </head>
   <body>
-    	<h1>ELLA KOEZE</h1>
+  	<div class='header'>
+  		<div class='head'>Ella Koeze </div>
+  		<div class='subhead'>visual journalist at <a class='top' href="http://fivethirtyeight.com/">FiveThirtyEight</a></div>
+  		<div class='subhead'><a class='top' href="https://twitter.com/ellawinthrop">@ellawinthrop</a> | ekoeze@gmail.com</div>
+  	</div>
+    	
     	<div class='grid'></div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
@@ -127,13 +171,13 @@
       function makeGrid(data){
         console.log(data);
         data.forEach(function(row) {
-          var link = d3.select('.grid').append('a').attr('href',row[5])
+          var link = d3.select('.grid').append('a').attr('class','box').attr('href',row[5])
           var project = link.append('div').attr('class','project');
-          var top = project.append('div').attr('class','top');
-          top.append('p').attr('class','slug').text(row[3]);
-          top.append('p').attr('class','date').text(row[1]);
-          project.append('p').attr('class','title').text(row[0]);
-          project.append('p').attr('class','org').text('for '+row[2]);
+          // var top = project.append('div').attr('class','top');
+          project.append('div').attr('class','title').append('div').attr('class','text-box').text(row[0]);
+          project.append('div').attr('class','date').append('div').attr('class','text-box').text(row[1]);
+          project.append('div').attr('class','slug').append('div').attr('class','text-box').text(row[3]);
+          // project.append('p').attr('class','org').text('for '+row[2]);
 
           var overlay = link.append('div').attr('class','project-overlay');
           var image = overlay.append('div').attr('class', 'image');
@@ -141,7 +185,9 @@
       
           if(row[6]){
             image.append('img').attr('src','images/'+row[6]+'.png');
-
+          }
+          else{
+          	image.append('img').attr('src','images/white-square.png');
           }
         });
 
